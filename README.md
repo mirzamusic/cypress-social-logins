@@ -67,6 +67,7 @@ Options passed to the task include:
 | password             |                                                                                                                                   |
 | loginUrl             | The URL for the login page that includes the social network buttons                                                               | https://www.example.com/login           |
 | headless             | Whether to run puppeteer in headless more or not                                                                                  | true                                    |
+| args                 | string array wich allow you to provide a arguments to puppeteer                                                                                  | ` ['--no-sandbox', '--disable-setuid-sandbox']`                                    |
 | logs                 | Whether to log interaction with the loginUrl website & cookie data                                                                | false                                   |
 | loginSelector        | A selector on the page that defines the specific social network to use and can be clicked, such as a button or a link             | `'a[href="/auth/auth0/google-oauth2"]'` |
 | postLoginSelector    | A selector on the post-login page that can be asserted upon to confirm a successful login                                         | `'.account-panel'`                      |
