@@ -35,32 +35,35 @@ module.exports.GoogleSocialLogin = async function GoogleSocialLogin(options = {}
   await page.setViewport({width: 1280, height: 800})
 
   await page.goto(options.loginUrl)
+  const newPagePromise = new Promise(x => browser.once('targetcreated', target => x(target.page())))
   await login({page, options})
 
+  let popup = null
   // Switch to Popup Window
   if (options.isPopup) {
     if (options.popupDelay) {
       await delay(options.popupDelay)
     }
-    const pages = await browser.pages()
-    // remember original window index
-    originalPageIndex = pages.indexOf(
-      pages.find(p => page._target._targetId === p._target._targetId)
-    )
-    page = pages[pages.length - 1]
+    // const pages = await browser.pages()
+    // // remember original window index
+    // originalPageIndex = pages.indexOf(
+    //   pages.find(p => page._target._targetId === p._target._targetId)
+    // )
+    // page = pages[pages.length - 1]
+    popup = await newPagePromise
   }
 
-  await typeUsername({page, options})
-  await typePassword({page, options})
+  await typeUsername({page: popup || page, options})
+  await typePassword({page: popup || page, options})
 
   // Switch back to Original Window
-  if (options.isPopup) {
-    if (options.popupDelay) {
-      await delay(options.popupDelay)
-    }
-    const pages = await browser.pages()
-    page = pages[originalPageIndex]
-  }
+  // if (options.isPopup) {
+  //   if (options.popupDelay) {
+  //     await delay(options.popupDelay)
+  //   }
+  //   const pages = await browser.pages()
+  //   page = pages[originalPageIndex]
+  // }
 
   if (options.cookieDelay) {
     await delay(options.cookieDelay)
