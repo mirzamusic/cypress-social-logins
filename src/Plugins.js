@@ -31,11 +31,13 @@ module.exports.GoogleSocialLogin = async function GoogleSocialLogin(options = {}
 
   const browser = await puppeteer.launch(launchOptions)
   let page = await browser.newPage()
-  let originalPageIndex = 1
+  // let originalPageIndex = 1
   await page.setViewport({width: 1280, height: 800})
 
   await page.goto(options.loginUrl)
-  const newPagePromise = new Promise(x => browser.once('targetcreated', target => x(target.page())))
+  const newPagePromise = new Promise(resolve =>
+    browser.once('targetcreated', target => resolve(target.page()))
+  )
   await login({page, options})
 
   let popup = null
