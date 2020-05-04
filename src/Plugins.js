@@ -103,20 +103,17 @@ async function login({page, options} = {}) {
 }
 
 async function typeUsername({page, options} = {}) {
-  let buttonSelector = options.headless ? '#next' : '#identifierNext'
-
   await page.waitForSelector('input[type="email"]')
   await page.type('input[type="email"]', options.username)
-  await page.click(buttonSelector)
+
+  await page.keyboard.press(String.fromCharCode(13))
 }
 
 async function typePassword({page, options} = {}) {
-  let buttonSelector = options.headless ? '#signIn' : '#passwordNext'
-
   await page.waitForSelector('input[type="password"]', {visible: true})
   await page.type('input[type="password"]', options.password)
-  await page.waitForSelector(buttonSelector, {visible: true})
-  await page.click(buttonSelector)
+
+  await page.keyboard.press(String.fromCharCode(13))
 }
 
 async function getCookies({page, options} = {}) {
